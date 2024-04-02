@@ -75,7 +75,7 @@ export const globalStyles = StyleSheet.create({
         paddingVertical: 5,
         marginHorizontal: 15,
         marginVertical: 15,
-        paddingHorizontal: 12,
+        paddingHorizontal: 5,
         color: '#fff'
     },
     defaultInputTextPass:  {
