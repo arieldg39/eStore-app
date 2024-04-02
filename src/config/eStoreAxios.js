@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const urlApi = 'http://localhost:3031/api';
+const urlApi = 'http://192.168.1.9:4000/api';
 
-export const eShopApiUrl = axios.create({
+export const eStoreApi = axios.create({
     baseURL: urlApi,
     timeout: 120000,
     headers: {

@@ -1,12 +1,29 @@
-import React from 'react'
-import { Text, View } from 'react-native'
+import React, { useContext, useEffect } from 'react'
+import { FlatList, Text, View } from 'react-native'
 
 import { globalStyles } from '../themes/globalTheme'
+import { ProductContext } from '../context/ProductContext';
+import { CustomCardProducts } from '../components/CustomCardProducts ';
 
 export const HomeScreen = () => {
+
+    const { getProducts, state } = useContext(ProductContext);
+    
+    useEffect( () =>  {
+        getProducts();        
+    }, []);
+
     return (
         <View style={globalStyles.container}>
-            <Text>HomeScreen</Text>
+            <View style={{ flex:2}}>
+                <FlatList  
+                    data={state.products}
+                    renderItem={({item}) => <CustomCardProducts itemData={item}/>}
+                    keyExtractor={item => item.idarticulo}  
+                    horizontal={false}                    
+                    numColumns={2}                     
+                />
+            </View>            
         </View>
     )
 }

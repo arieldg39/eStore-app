@@ -16,7 +16,8 @@ export const AuthReducer = (state={}, action) => {
                 user: null,
                 isLogged: false,
                 isLoading:false,
-                errorMessage: action.payload.errorMessage
+                errorMessage: action.payload.errorMessage,
+                typeError:action.payload.typeError
             }
 
         case types.auth.logout:
