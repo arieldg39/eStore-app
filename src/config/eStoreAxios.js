@@ -1,8 +1,10 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-const urlApi = 'http://localhost:3031/api';
+const urlApi = 'http://192.168.1.9:4000/api';
+//const urlApi = 'http://192.168.88.252:4000/api';
 
-export const eShopApiUrl = axios.create({
+export const eStoreApi = axios.create({
     baseURL: urlApi,
     timeout: 120000,
     headers: {
@@ -10,3 +12,14 @@ export const eShopApiUrl = axios.create({
         'Access-Control-Allow-Origin':  '*',
     }
 });
+
+eStoreApi.interceptors.request.use(
+
+    async(config) => {
+        const token = await AsyncStorage.getItem('token');
+        if(token){
+            config.headers['Authorization'] = token;
+        }
+        return config;
+    }
+)

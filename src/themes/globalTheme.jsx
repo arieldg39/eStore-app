@@ -36,7 +36,7 @@ export const globalStyles = StyleSheet.create({
     },
 
     defaulTextBtn: {
-        fontSize: 18,
+        fontSize: 20,
         color: '#fff',
         fontWeight: '500'
     },
@@ -70,17 +70,17 @@ export const globalStyles = StyleSheet.create({
 
     defaultInputText:  {
         borderWidth:2,
-        borderColor: '#f2058b',
+        borderColor: '#705DAD',
         borderRadius: 40,
         paddingVertical: 5,
         marginHorizontal: 15,
         marginVertical: 15,
-        paddingHorizontal: 12,
+        paddingHorizontal: 5,
         color: '#fff'
     },
     defaultInputTextPass:  {
         borderWidth:2,
-        borderColor: '#f2058b',
+        borderColor: '#705DAD',
         borderRadius: 40,
         paddingVertical: 7,
         marginHorizontal: 15,
