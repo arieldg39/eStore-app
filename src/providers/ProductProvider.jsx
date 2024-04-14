@@ -18,8 +18,7 @@ export const ProductProvider = ({children}) => {
 
         try {
             
-            const products = await eStoreApi.get('/products/list');           
-            console.log(products);
+            const products = await eStoreApi.get('/products/list');                       
          /*    if(!products){
                 dispatch({
                     type: types.products.error,

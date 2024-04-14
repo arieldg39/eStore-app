@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 
-//import { ProductsScreen } from '../';
+import { ProductsScreen } from '../screens/products/ProductsScreen';
 import { AntDesign } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
+
 
 export const CustomCardProducts = ({itemData}) => {
 
@@ -18,19 +19,19 @@ export const CustomCardProducts = ({itemData}) => {
     return (
         <Pressable
             style={{
-            marginHorizontal:8,
-            marginVertical:8,
-            backgroundColor: 'rgba(255,255,255,0.1)',
-            // borderColor: 'rgba(255,255,255,0.1)',
-            // borderWidth:2,
-            borderRadius: 15
+                marginHorizontal:10,
+                marginVertical:10,
+                backgroundColor: 'rgba(255,255,255,0.1)',
+                // borderColor: 'rgba(255,255,255,0.1)',
+                // borderWidth:2,
+                borderRadius: 15
             }}
-            /* onPress={() => navigate('ProductsScreen', {
-            itemData,
-            })} */
+            onPress={() => navigate('ProductsScreen', {
+                itemData,
+            })} 
         >
             <View style={{
-                height: 200,
+                height: 215,
                 width: 160,
                 padding: 10
             }}>
@@ -41,8 +42,9 @@ export const CustomCardProducts = ({itemData}) => {
                             style={{
                                 width:'100%',
                                 height: 130,
+                                marginTop:5,
                                 marginBottom:5,
-                                borderRadius: 10,
+                                borderRadius: 15,
                                 resizeMode: 'contain',
                             }}
                         />
@@ -54,7 +56,7 @@ export const CustomCardProducts = ({itemData}) => {
                                 width:'100%',
                                 height: 130,
                                 marginBottom:5,
-                                borderRadius: 10,
+                                borderRadius: 15,
                                 resizeMode: 'contain',
                             }}
                         />
@@ -63,14 +65,15 @@ export const CustomCardProducts = ({itemData}) => {
                 <View style={{
                     paddingHorizontal:3,
                     marginTop: 3,
+                    
                 }}>            
-                    <Text style={{ fontSize: 10, color: 'rgba(255,255,255, 0.5)',  }}>{ itemData.marca}</Text>
-                    <Text style={{ fontSize: 10, color: '#fff'}}>{ itemData.articulo }</Text>            
-                    <Text style={{ fontSize: 12, color: '#f2058b'}}>${ itemData.precioventa1 }.00</Text>
+                    <Text style={{ fontSize: 10, color: 'rgba(255,255,255, 0.5)',alignSelf:"center"  }}>{ itemData.marca}</Text>
+                    <Text style={{ fontSize: 10, color: '#fff',alignSelf:"center" }}>{ itemData.articulo }</Text>            
+                    <Text style={{ fontSize: 12, color: '#f2058b',alignSelf:"center" }}>${ itemData.precioventa1 }.00</Text>
 
                 </View>
 
-                <Pressable 
+                {/* <Pressable 
                     onPress={() => onPresFavorite(itemData.idarticulo)}
                 >
                     <View style={{
@@ -89,7 +92,7 @@ export const CustomCardProducts = ({itemData}) => {
                             <AntDesign name={favorite == itemData.idarticulo ? 'heart' : 'hearto'} size={18} color={favorite == itemData.idarticulo ? '#f2058b' : '#fff'} />
                         </Text>
                     </View>
-                </Pressable>
+                </Pressable> */}
             </View>    
         </Pressable>
     )

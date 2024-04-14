@@ -4,17 +4,20 @@ import { DrawerNavigator } from './src/navigators/DrawerNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './src/providers/AuthProvider';
 import { ProductProvider } from './src/providers/ProductProvider';
+import { CartProvider } from './src/providers/CartProvider';
 
 export default function App() {
   return (
     <>
-      <StatusBar backgroundColor={'#f2058b'} />
+      <StatusBar backgroundColor={'#705DAD'} />
       <AuthProvider>
-          <NavigationContainer>
-            <ProductProvider>
-                <DrawerNavigator/>
-            </ProductProvider>
-          </NavigationContainer>
+          <CartProvider>
+            <NavigationContainer>
+              <ProductProvider>
+                  <DrawerNavigator/>
+              </ProductProvider>
+            </NavigationContainer>
+          </CartProvider>
       </AuthProvider>
     </>
   );

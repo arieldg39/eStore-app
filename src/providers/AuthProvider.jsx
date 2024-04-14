@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext"
 import { AuthReducer } from "../reducers/AuthReducer"
 import { eStoreApi } from "../config/eStoreAxios";
 import { types } from "../types/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState  = {
     user: null,
@@ -14,7 +15,7 @@ const initialState  = {
 export const AuthProvider = ({ children}) => {
 
     const [state, dispatch] = useReducer(AuthReducer,  initialState);
-
+    /*------------------------------Login-------------------------------------------*/
     const login = async(username, password) =>  {
         try {
 
@@ -22,10 +23,8 @@ export const AuthProvider = ({ children}) => {
                 username,
                 password
             });
-
-            console.log(user);
-
-            //await AsyncStorage.setItem('e-token', user.data.res.token);    
+            //console.log(user);
+            await AsyncStorage.setItem('token', user.data.token);
              dispatch({
                 type: types.auth.login,
                 payload: {
@@ -34,18 +33,47 @@ export const AuthProvider = ({ children}) => {
             }); 
             
         } catch (error) {
-            //console.log(error)                                     
-            dispatch({
-                type: types.auth.error,
-                payload:  {
-                    errorMessage: error.response.data.message,
-                    typeError: error.response.data.tipoerror
-                }
-            }) 
+            console.log(error)            
+            if(error.code==="ERR_NETWORK"){
+                dispatch({
+                    type: types.auth.error,
+                    payload:  {
+                        errorMessage: "Sin Conexion con el Servidor de Datos, intente mas tardes!!!",
+                        typeError: "SinConex"
+                    }
+                }) 
+            }else{
+                dispatch({
+                    type: types.auth.error,
+                    payload:  {
+                        errorMessage: error.response.data.message,
+                        typeError: error.response.data.tipoerror
+                    }
+                }) 
+            }
             
         }
     }
-
+    /*------------------------------Check Token-------------------------------------------*/
+    const checkToken = async() => {
+        try {                        
+            const { data } = await eStoreApi.get('/auth/token');
+            console.log(data);
+            dispatch({
+                type: types.auth.login,
+                payload: {
+                    user: data.dataUser
+                }
+            }); 
+            
+        } catch (error) {
+            //console.log("Error: "+error);
+            dispatch({
+                type: types.auth.logout,                
+            }) 
+        }
+    }
+    /*------------------------------Logout-------------------------------------------*/
     const logout = () => {      
         dispatch({
             type: types.auth.logout,
@@ -57,6 +85,7 @@ export const AuthProvider = ({ children}) => {
                 state,
                 login,
                 logout,
+                checkToken
             }}
         >
             {children}

@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import {useForm  } from '../../hooks/useForm';
 import CustomInputEmail from '../../components/CustomInputEmail';
 import { CustomAlert } from '../../components/CustomAlert';
+import { CustomLoading } from '../../components/CustomLoading';
 
 export const LoginScreen = () => {
 
@@ -13,9 +14,12 @@ export const LoginScreen = () => {
     const [alertVisible, setAlertVisible] = useState(false);
     const [titleAlert, setTitleAlert] = useState("");
     const [messageAlert, setMessageAlert] = useState("");
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
       hamdleMessage();
+      setIsLoading(state.isLoading)
+
     }, [state])
     ///////// PROCEDIMIENTO PARA VERICAR EL ESTADO TIENE MENSAJE DE ERROR  ///////////////////////
     const hamdleMessage = () => {
@@ -31,6 +35,11 @@ export const LoginScreen = () => {
           setAlertVisible(true);
       }
       if(state.typeError==="errorDatos") {
+          setTitleAlert("Error Leer Atte.");
+          setMessageAlert(state.errorMessage);
+          setAlertVisible(true);
+      }
+      if(state.typeError==="SinConex") {
           setTitleAlert("Error Leer Atte.");
           setMessageAlert(state.errorMessage);
           setAlertVisible(true);
@@ -57,6 +66,7 @@ export const LoginScreen = () => {
           setAlertVisible(true);
         }else
         {
+          setIsLoading(true);
           login(formState.username, formState.password);      
         }
       }
@@ -65,6 +75,7 @@ export const LoginScreen = () => {
 
   return (
     <>
+        { isLoading &&  <CustomLoading/> }
         <View style={globalStyles.container}>
             <View>              
                 <Image 
