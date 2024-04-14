@@ -1,18 +1,27 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StackNavigator } from './StackNavigator';
 import {AntDesign} from 'react-native-vector-icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { CartContext } from '../context/CartContext';
+import { CartScreen } from '../screens/carts/CartScreen';
 
 const Tab = createBottomTabNavigator();
 
 export const TabsNavigator = () => {
+    const { state, getCart } = useContext(CartContext);
+
+     useEffect( () =>  {
+        getCart();
+    }, [state.cantProd]); 
+
+
     return (
         <Tab.Navigator
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {
-                    backgroundColor: '#f2058b',
+                    backgroundColor: '#705DAD',
                     borderColor: '#000',
                     borderWidth: 0,
                     borderRadius:50,
@@ -69,8 +78,8 @@ export const TabsNavigator = () => {
         />
 
         <Tab.Screen 
-            name='CheckoutScreen' 
-            component={StackNavigator}
+            name='Cartscreen'  
+            component={CartScreen}
             options={{ 
                 title:'Mi Carrito',
                 tabBarIcon: ({focused}) => (
@@ -80,7 +89,7 @@ export const TabsNavigator = () => {
                         size={28}
                     />
                 ),
-                tabBarBadge: null,//state.cart.length ? state.cart.length:  null,
+                tabBarBadge: state.cart.length ? state.cart.length:  null,
                 tabBarBadgeStyle: {
                     backgroundColor: '#fff',
                     fontWeight: 'bold'
