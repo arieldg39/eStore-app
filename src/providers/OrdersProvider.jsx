@@ -19,9 +19,9 @@ export const OrdersProvider = ({children}) => {
         const products = await eStoreApi.get('/orders/getOrders'); 
     };
 
-    const getOrderState = async() =>{
+    const getOrderState = async(idusuario) =>{
         try {
-            const orders = await eStoreApi.get('/orders/getState');
+            const orders = await eStoreApi.get('/orders/getState',{idusuario});
             console.log(orders);   
             dispatch({
                 type: types.orders.getOrderState,

@@ -23,7 +23,7 @@ export const DrawerNavigator = () => {
     useEffect( () => {
         checkToken();
         //getCart();
-        getOrderState();
+        getOrderState(state.user.idusuario);
     },[]) 
 
      if(state.isLoading){
