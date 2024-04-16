@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export const CustomAlert = ({ visible, title, message, onClose }) => {
     return (
@@ -11,7 +11,7 @@ export const CustomAlert = ({ visible, title, message, onClose }) => {
         >
             <View style={styles.container}>
             <View style={styles.alert}>
-                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.title}>{title}</Text>                
                 <Text style={styles.message}>{message}</Text>
                 <TouchableOpacity onPress={onClose} style={styles.button}>
                 <Text style={styles.buttonText}>Aceptar</Text>
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',        
     },
     alert: {
         backgroundColor: 'white',
@@ -35,14 +35,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         elevation: 5,
         alignItems: 'center',
+        width:350,
     },
     title: {
-        fontSize: 20,
+        fontSize: 28,
         fontWeight: 'bold',
         marginBottom: 10,
     },
     message: {
-        fontSize: 16,
+        fontSize: 18,
         marginBottom: 20,
     },
     button: {
@@ -55,5 +56,5 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
-    },
-    });
+    },   
+});

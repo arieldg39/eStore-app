@@ -1,23 +1,28 @@
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { LoginScreen } from '../screens/auths/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
 import {AuthContext } from '../context/AuthContext'
 import { CustomDrawerContent } from '../components/CustomDrawerContent';
 import { CustomLoading } from '../components/CustomLoading';
 import { CartContext } from '../context/CartContext';
+import { OrdersContext } from '../context/OrdersContext';
 
 const Drawer= createDrawerNavigator();
 
 export const DrawerNavigator = () => {
 
+    const [orderState, setOrderState] = useState("")
+
     const { state, checkToken } = useContext(AuthContext);   
-    const { state1, getCart } = useContext(CartContext);
+    const {  getCart } = useContext(CartContext);
+    const { stateOrders, getOrderState } = useContext(OrdersContext);
 //    console.log(state);
 
     useEffect( () => {
         checkToken();
-        getCart();
+        //getCart();
+        getOrderState();
     },[]) 
 
      if(state.isLoading){
@@ -28,8 +33,7 @@ export const DrawerNavigator = () => {
         return (
             <>            
             <Drawer.Navigator
-                drawerContent={(props) => <CustomDrawerContent {...props} user={state.user} />}
-            >
+                drawerContent={(props) => <CustomDrawerContent {...props} user={state.user}  orders= {stateOrders.state}  />}>
                 <Drawer.Screen 
                     name='Home' 
                     options={{title: 'StoreApp'}}

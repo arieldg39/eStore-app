@@ -3,9 +3,10 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import { globalStyles } from '../themes/globalTheme';
 
-export const CustomDrawerContent = ({ navigation, user }) => {
+export const CustomDrawerContent = ({ navigation, user,orders }) => {
 
     const { state, logout } = useContext(AuthContext);
+    
 
     return (
         <View style={{ flex: 1 }}>
@@ -15,6 +16,12 @@ export const CustomDrawerContent = ({ navigation, user }) => {
             </View>
             <View style={styles.menu}>
                 {/* Agrega aquí tus opciones de menú */}
+                <TouchableOpacity
+                    style={globalStyles.defaultBtnOutline}                    
+                >
+                    <Text>Mis Pedidos {orders}</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity
                     style={globalStyles.defaultBtnOutline}
                     onPress={logout}

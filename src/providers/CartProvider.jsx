@@ -3,6 +3,7 @@ import { CartReducer } from '../reducers/CartReducers';
 import { CartContext } from '../context/CartContext';
 import { types } from '../types/types';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { eStoreApi } from '../config/eStoreAxios';
 
 
 const initialState = {
@@ -12,7 +13,7 @@ const initialState = {
 }
 
 export const CartProvider = ({ children }) => {
-    const [  state, disptach ] = useReducer(CartReducer,  initialState);
+    const [  stateCart, disptach ] = useReducer(CartReducer,  initialState);
     const [cartData, setCartData] = useState([]);
 
     const addCart = async(productData)=>{ 
@@ -20,7 +21,7 @@ export const CartProvider = ({ children }) => {
         let subtotal = productData.product.precioventa1*productData.qty;        
 
         const addProduct = [
-            ...state.cart,
+            ...stateCart.cart,
             {
                 id: productData.product.idarticulo,
                 product: productData.product.articulo,
@@ -81,14 +82,48 @@ export const CartProvider = ({ children }) => {
         } catch (error) {
             
         }
+    };    
+    const finalCart = async (idUser, cart,total) => {
+        //console.log(idUser, cart);
+        try {
+            const data = await eStoreApi.post('/ventas/register',{
+                iduser: idUser,
+                cart,
+                total
+            });   
+            disptach({
+                type: types.cart.finCart,
+                payload: {
+                    cart: [],
+                    msg:"OK",
+                }
+            })
+            await AsyncStorage.removeItem('cartStorage');
+        } catch (error) {
+            if (error.response) {
+                dispatch({
+                    type: "ERROR-MESSAGE",
+                    payload: {
+                    msg: error.response.data.tipoerror,
+                    },
+                });
+                } else {                
+                dispatch({
+                    type: "ERROR-MESSAGE",
+                    payload: {
+                    msg: "An error occurred during the request",
+                    },
+                });
+                }
+        }
     };
-    
     return (
         <CartContext.Provider
             value={{
-                state,
+                stateCart,
                 addCart,
-                getCart
+                getCart,
+                finalCart
             }}
         >
             { children }

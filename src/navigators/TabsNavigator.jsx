@@ -9,11 +9,11 @@ import { CartScreen } from '../screens/carts/CartScreen';
 const Tab = createBottomTabNavigator();
 
 export const TabsNavigator = () => {
-    const { state, getCart } = useContext(CartContext);
+    const { stateCart, getCart } = useContext(CartContext);
 
-     useEffect( () =>  {
+     /* useEffect( () =>  {
         getCart();
-    }, [state.cantProd]); 
+    }, [stateCart]);  */
 
 
     return (
@@ -62,7 +62,7 @@ export const TabsNavigator = () => {
                 }} 
             />
 
-             <Tab.Screen 
+       {/*  <Tab.Screen 
             name='SearchScreen' 
             component={StackNavigator}
             options={{ 
@@ -75,7 +75,7 @@ export const TabsNavigator = () => {
                     />
                 )
             }} 
-        />
+        /> */}
 
         <Tab.Screen 
             name='Cartscreen'  
@@ -89,7 +89,7 @@ export const TabsNavigator = () => {
                         size={28}
                     />
                 ),
-                tabBarBadge: state.cart.length ? state.cart.length:  null,
+                tabBarBadge: stateCart.cart.length ? stateCart.cart.length:  null,
                 tabBarBadgeStyle: {
                     backgroundColor: '#fff',
                     fontWeight: 'bold'
