@@ -43,7 +43,7 @@ export const globalStyles = StyleSheet.create({
     defaulTextBtnReg: {
         fontSize: 18,
         color: '#fff',
-        fontWeight: '500'
+        fontWeight: '500',        
     },
 
     defaultBtnOutline: {
