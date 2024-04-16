@@ -10,7 +10,7 @@ export const HomeScreen = () => {
 
     const { getProducts, state } = useContext(ProductContext);
     
-    
+
     useEffect( () =>  {
         getProducts();     
         
