@@ -73,6 +73,50 @@ export const AuthProvider = ({ children}) => {
         }
     }
     /*------------------------------Logout-------------------------------------------*/
+    const register = async(nombre,apellido,email,password) =>  {
+        try {
+            const user = await eStoreApi.post('/auth/registerapp', {
+                nombre,
+                apellido,
+                usuario: email,
+                clave:password,
+                acceso: "customer",
+                fechaalta: new Date().toISOString().split('T')[0],
+                avatar:"avatar.png"
+            });
+            console.log(user);
+            //await AsyncStorage.setItem('token', user.data.token);
+            dispatch({
+                type: types.auth.register,
+                payload: {
+                    msg: user.data.message,
+                    typeError:"ok"
+                }
+            }); 
+            
+        } catch (error) {
+            console.log(error)            
+            if(error.code==="ERR_NETWORK"){
+                dispatch({
+                    type: types.auth.error,
+                    payload:  {
+                        errorMessage: "Sin Conexion con el Servidor de Datos, intente mas tardes!!!",
+                        typeError: "SinConex"
+                    }
+                }) 
+            }else{
+                dispatch({
+                    type: types.auth.error,
+                    payload:  {
+                        errorMessage: error.response.data.message,
+                        typeError: error.response.data.tipoerror
+                    }
+                }) 
+            }
+            
+        }
+    }
+    /*------------------------------Logout-------------------------------------------*/
     const logout = async() => {      
         dispatch({
             type: types.auth.logout,
@@ -86,7 +130,8 @@ export const AuthProvider = ({ children}) => {
                 state,
                 login,
                 logout,
-                checkToken
+                checkToken,
+                register
             }}
         >
             {children}

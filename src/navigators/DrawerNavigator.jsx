@@ -7,6 +7,7 @@ import { CustomDrawerContent } from '../components/CustomDrawerContent';
 import { CustomLoading } from '../components/CustomLoading';
 import { CartContext } from '../context/CartContext';
 import { OrdersContext } from '../context/OrdersContext';
+import { RegisterScreen } from '../screens/auths/RegisterScreen';
 
 const Drawer= createDrawerNavigator();
 
@@ -46,10 +47,9 @@ export const DrawerNavigator = () => {
 
     if(!state.isLogged){
         return (
-            <Drawer.Navigator
-                
-            >
+            <Drawer.Navigator>
                 <Drawer.Screen name='Login' options={{title: 'Login', headerShown:false,}}  component={LoginScreen}/>
+                <Drawer.Screen name='Register' options={{title: 'Registrar', headerShown:false,}}  component={RegisterScreen}/>
             </Drawer.Navigator>
         )
     }  
