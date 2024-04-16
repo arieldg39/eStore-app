@@ -1,34 +1,69 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useQuantity } from '../../hooks/useQuantity';
 import { CartContext } from '../../context/CartContext';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CustomQuantity } from '../../components/CustomQuantity';
 import { globalStyles } from '../../themes/globalTheme';
 import {AntDesign} from 'react-native-vector-icons';
+import { CustomLoadingPage } from '../../components/CustomLoadingPage';
+ import { CustomAlert } from '../../components/CustomAlert';
+import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../../context/AuthContext'; 
 
 export const CartScreen = ({navigation}) => {
-    const { state } = useContext(CartContext);
-    const { quantity, sumQuantity, restQuantity} = useQuantity();
+    const { stateCart,finalCart } = useContext(CartContext);
+    const { state } = useContext(AuthContext);  
+    //const { quantity, sumQuantity, restQuantity} = useQuantity();
     const [cantidad, setCantidad] = useState(0);
-    const [modalShow, setModalShow] = useState(false);
+    const [modalShow, setModalShow] = useState(false); 
+    const { navigate } =  useNavigation();
 
     let total=0;
+
+    useEffect (() => {      
+        if(stateCart.msg==="ok")
+        {
+            navigate("Home");
+        }
+    }, [stateCart])
+    
 
     const generateId = function () {
         return '_' + Math.random().toString(36).substr(2, 9);
     };
     /*--------------------------------------------------------------------------------------*/
     const hideMessage = () =>{
-        setModalShow
+        setModalShow(false)
     };
     const handleSubmit = () => {
-
+        setModalShow(true);
+        console.log(state, stateCart);
+        finalCart(state.user.idusuario, stateCart.cart, total );
+        //navigate('Home');
+    };
+    /*--------------------------------------------------------------------------------------*/
+    const MessageModal = ({ visible, message, gifSource, onClose }) => {
+        return (
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={visible}
+            onRequestClose={onClose}
+        >
+            <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+                <Image source={gifSource} style={styles.gifImage} />
+                <Text style={styles.messageText}>{message}</Text>
+                {/* <Button title="Cerrar" onPress={onClose} /> */}
+            </View>
+            </View>
+        </Modal>
+        );
     };
     /*--------------------------------------------------------------------------------------*/
     const sumar = (t)=>{
-        console.log("precio:"+t);
-        total =total + parseFloat(t);
-        console.log("Suma:"+total);
+        //console.log("precio:"+t);
+        total =total + parseFloat(t);        
         setCantidad(total);
     }
     /*------------------------------Carga el Flatlist con los articulos del carrit--------------- */
@@ -105,52 +140,41 @@ export const CartScreen = ({navigation}) => {
             </View>
         )
         
-    }    
-    /*-------------------------------Modal Mensajes------------------------------------------------------ */
-    const MessageModal = ({ visible, message, onClose }) => {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={visible}
-                onRequestClose={onClose}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                    <Text style={styles.messageText}>{message}</Text>
-                    <Button title="Cerrar" onPress={onClose} />
-                    </View>
-                </View>
-            </Modal>
-        );
-    };
+    }   
 
     /*----------------------------------------------------------------------------------------------- */
-    if(state.cart.length>0) {
+    if(stateCart.cart.length>0) {
         return (
             <View style={ globalStyles.container }>
                 <View style={styles.containerPrimary}>                
                     <FlatList 
-                        data={state.cart}
+                        data={stateCart.cart}
                         renderItem={ ({item}) => cartRender(item) }
                         keyExtractor={item => item.id+generateId()}
                     />            
                     <View style={styles.containerTotal}>
-                        <Text style={styles.textTotal}>  Total de Venta ${cantidad}</Text>
+                        <Text style={styles.textTotal}>  Total de Venta ${cantidad}</Text>                        
                         <TouchableOpacity
                             style={globalStyles.defaultBtn}  
+                            onPress={handleSubmit}
                         >
                             <Text Text style={globalStyles.defaulTextBtn}>Finalizar Compra</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </View>    
                 <MessageModal
                     visible={modalShow}
-                    message="Des"
+                    message="Finalizando Compra..."
+                    gifSource={require('../../../assets/carro2.gif')}
                     onClose={hideMessage}
-                />
+                />          
+                {/* <CustomAlert 
+                    visible={modalShow}
+                    title={"eStore.com"}
+                    message="Finalizando Compra..."
+                    onClose={hideMessage}
+                /> */}
             </View>
-            
         )
     }else{
         return (
@@ -164,6 +188,7 @@ export const CartScreen = ({navigation}) => {
                         <TouchableOpacity
                             style={globalStyles.defaultBtn}  
                             onPress={handleSubmit}
+                            disabled
                         >
                             <Text Text style={globalStyles.defaulTextBtn}>Finalizar Compra</Text>
                         </TouchableOpacity>
@@ -227,15 +252,21 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',        
     },
     modalContent: {
         backgroundColor: '#fff',
         padding: 20,
         borderRadius: 10,
         alignItems: 'center',
+        width:300
     },
     messageText: {
         marginBottom: 20,
+        fontSize: 20,
+    },
+    gifImage: {
+        width: 200,
+        height: 200,
     },
 });

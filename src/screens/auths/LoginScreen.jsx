@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import {useForm  } from '../../hooks/useForm';
 import CustomInputEmail from '../../components/CustomInputEmail';
 import { CustomAlert } from '../../components/CustomAlert';
-import { CustomLoading } from '../../components/CustomLoading';
+import { CustomLoadingPage } from '../../components/CustomLoadingPage';
 
 export const LoginScreen = () => {
 
@@ -14,11 +14,11 @@ export const LoginScreen = () => {
     const [alertVisible, setAlertVisible] = useState(false);
     const [titleAlert, setTitleAlert] = useState("");
     const [messageAlert, setMessageAlert] = useState("");
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
       hamdleMessage();
-      setIsLoading(state.isLoading)
+      //setIsLoading(state.isLoading)
 
     }, [state])
     ///////// PROCEDIMIENTO PARA VERICAR EL ESTADO TIENE MENSAJE DE ERROR  ///////////////////////
@@ -74,8 +74,7 @@ export const LoginScreen = () => {
 
 
   return (
-    <>
-        { isLoading &&  <CustomLoading/> }
+    <>        
         <View style={globalStyles.container}>
             <View>              
                 <Image 
@@ -105,6 +104,7 @@ export const LoginScreen = () => {
                   onChangeText={(value) => onInputChange('password', value)}
                 />
             </View>
+            { isLoading &&  <CustomLoadingPage/> }
             <View > 
               <TouchableOpacity
                 style={globalStyles.defaultBtn}

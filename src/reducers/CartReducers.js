@@ -25,6 +25,13 @@ export const CartReducer =  (state={}, action) => {
                 isLoading: false,
                 msg: action.payload.msg
             }
+        case types.cart.finCart:
+            return {
+                ...state,
+                isLoading: false,
+                cart: action.payload.cart,
+                msg: action.payload.msg 
+            }
     
         default:
             return state
