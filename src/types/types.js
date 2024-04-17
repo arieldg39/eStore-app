@@ -16,5 +16,6 @@ export const types = {
     deleteItem: "DELETEITEM",
     removeCart: "REMOVECART",
     msgCart: "MSGCART",
+    updateCart: "UPDATECART"
   },
 };

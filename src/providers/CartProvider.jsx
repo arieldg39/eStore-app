@@ -82,17 +82,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const deleteItem = async (id) => {
-    console.log("delete from pr");
-    console.log(id);
     const cartJson = await AsyncStorage.getItem("cartStorage");
     const cartArray = JSON.parse(cartJson);
     console.log("Delete this " + id);
-    if (!cartArray || !cartArray.products) {
-      console.error(
-        "Cart data is undefined or does not contain products array."
-      );
-      return;
-    }
 
     const updatedCart = cartArray.products.filter((item) => item.id !== id);
     setCartData({ products: updatedCart });
@@ -118,6 +110,37 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const updateCart = async (id, newQty) => {
+    try {
+      const cartJson = await AsyncStorage.getItem("cartStorage");
+      const cartArray = JSON.parse(cartJson);
+      const updatedProducts = cartArray.products.map((item) => {
+        if (item.id === id) {
+          let subtotal = item.price * newQty;
+          return { ...item, qty: newQty, subTotal: subtotal };
+        }
+        return item;
+      });
+
+      await AsyncStorage.setItem(
+        "cartStorage",
+        JSON.stringify({ products: updatedProducts })
+      );
+
+      setCartData({ products: updatedProducts });
+
+      disptach({
+        type: types.cart.updateCart,
+        payload: {
+          cart: updatedProducts,
+          cantProd: updatedProducts.length,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -125,6 +148,7 @@ export const CartProvider = ({ children }) => {
         addCart,
         getCart,
         deleteItem,
+        updateCart,
       }}
     >
       {children}

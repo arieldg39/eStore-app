@@ -37,7 +37,15 @@ export const CartReducer = (state = initialState, action) => {
         isLoading: false,
         cart: action.payload.cart,
         deletedItem: true
-      }
+      };
+    
+    case types.cart.updateCart:
+      return {
+        ...state,
+        isLoading: false,
+        cart: action.payload.cart,
+        cantProd: action.payload.cantProd,
+      };
 
     default:
       return state;

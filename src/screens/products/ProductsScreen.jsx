@@ -90,7 +90,7 @@ export const ProductsScreen = ({ route }) => {
                     {/* {itemData.name}{" "} */}
                     {itemData.articulo}{" "}
                 </Text>
-                <Text style={{ fontSize: 26, color: "#f2058b", fontWeight: "bold" }}>
+                <Text style={{ fontSize: 26, color: "#f2b", fontWeight: "bold" }}>
                     {/* ${itemData.price} */}
                     ${itemData.precioventa1}
                 </Text>

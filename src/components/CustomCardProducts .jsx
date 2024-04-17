@@ -22,8 +22,6 @@ export const CustomCardProducts = ({itemData}) => {
                 marginHorizontal:10,
                 marginVertical:10,
                 backgroundColor: 'rgba(255,255,255,0.1)',
-                // borderColor: 'rgba(255,255,255,0.1)',
-                // borderWidth:2,
                 borderRadius: 15
             }}
             onPress={() => navigate('ProductsScreen', {

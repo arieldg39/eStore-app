@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQuantity } from "../../hooks/useQuantity";
 import { CartContext } from "../../context/CartContext";
 import {
   FlatList,
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,10 +15,11 @@ import { globalStyles } from "../../themes/globalTheme";
 import { AntDesign } from "react-native-vector-icons";
 
 export const CartScreen = ({ navigation }) => {
-  const { state, deleteItem } = useContext(CartContext);
-  const { quantity, sumQuantity, restQuantity } = useQuantity();
-  const [cantidad, setCantidad] = useState(0);
+  const { state, deleteItem, updateCart } = useContext(CartContext);
+  const { sumQuantity, restQuantity, quantity } = useQuantity();
+  const [cantidadTotal, setCantidadTotal] = useState(0);
   const [modalShow, setModalShow] = useState(false);
+  const [item1, setItem] = useState(null);
 
   let total = 0;
 
@@ -28,20 +30,38 @@ export const CartScreen = ({ navigation }) => {
   const hideMessage = () => {
     setModalShow;
   };
-  const handleSubmit = () => { };
-  
-  const handleDeleteItem = (id) =>
-    deleteItem(id)
+  const handleSubmit = () => {};
+
+  const handleDeleteItem = (id) => deleteItem(id);
   /*--------------------------------------------------------------------------------------*/
-  const sumar = (t) => {
-    console.log("precio:" + t); 
+  const sumarTotal = (t) => {
+    /* 
+    console.log("precio:" + t); */
     total = total + parseFloat(t);
-    console.log("Suma:" + total);
-    setCantidad(total);
+    setCantidadTotal(total);
   };
+
+  const sumarEnC = (item) => {
+    const prev = item.qty;
+    if (prev <= 0) return;
+    item.qty = prev + 1;
+    updateCart(item.id, item.qty);
+  };
+
+  function restarEnC(item) {
+    const prev = item.qty;
+    if (prev <= 0) return;
+    item.qty = prev - 1;
+    if (item.qty == 0) {
+      handleDeleteItem(item.id);
+    } else {
+      updateCart(item.id, item.qty);
+    }
+  }
   /*------------------------------Carga el Flatlist con los articulos del carrit--------------- */
   const cartRender = (item) => {
-    sumar(item.subTotal);
+    sumarTotal(item.subTotal);
+    /* setItem(item); */
     return (
       <View
         style={{
@@ -89,7 +109,7 @@ export const CartScreen = ({ navigation }) => {
         </View>
         <View
           style={{
-            flex: 3,
+            flex: 2.5,
             alignItems: "flex-start",
           }}
         >
@@ -105,19 +125,71 @@ export const CartScreen = ({ navigation }) => {
             </Text>
           </View>
         </View>
-        <View style={{ flex: 2, alignItems: "center" }}>
-          <View style={styles.container}>
-            <TouchableOpacity style={styles.button}>
-              <AntDesign name="edit" size={25} color="white" />
-              {/* <Text style={styles.buttonText}>Modificar</Text> */}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, { backgroundColor: "red" }]}
-              onPress={() => handleDeleteItem(item.id)}
+        <View
+          style={{
+            flex: 1.5,
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: "row" }}>
+              <Pressable
+                style={{ alignItems: "center" }}
+                onPress={() => (setItem(item), restarEnC(item))}
+              >
+                <AntDesign
+                  name="minussquare"
+                  size={25}
+                  color="rgba(255, 255, 255, 0.5)"
+                />
+              </Pressable>
+
+              <View
+                style={{
+                  alignItems: "center",
+                  minWidth: 50,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 19,
+                    fontWeight: "bold",
+                    // marginHorizontal: 12,
+                  }}
+                >
+                  {item.qty}
+                </Text>
+              </View>
+
+              <Pressable
+                style={{ alignItems: "center" }}
+                onPress={() => (setItem(item), sumarEnC(item))}
+              >
+                <AntDesign
+                  name="plussquare"
+                  size={25}
+                  color="rgba(255, 255, 255, 0.5)"
+                />
+              </Pressable>
+            </View>
+            {/* Delete button */}
+            <View
+              style={{
+                marginTop: 15,
+                padding: 5,
+                backgroundColor: "red",
+                borderRadius: 5,
+              }}
             >
-              <AntDesign name="delete" size={25} color="white" />
-              {/* <Text style={styles.buttonText}>Eliminar</Text> */}
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={{ alignItems: "center" }}
+                onPress={() => handleDeleteItem(item.id)}
+              >
+                <AntDesign name="delete" size={25} color="white" />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -153,7 +225,10 @@ export const CartScreen = ({ navigation }) => {
             keyExtractor={(item) => item.id + generateId()}
           />
           <View style={styles.containerTotal}>
-            <Text style={styles.textTotal}> Total de Venta ${cantidad}</Text>
+            <Text style={styles.textTotal}>
+              {" "}
+              Total de Venta ${cantidadTotal}
+            </Text>
             <TouchableOpacity style={globalStyles.defaultBtn}>
               <Text Text style={globalStyles.defaulTextBtn}>
                 Finalizar Compra

@@ -8,6 +8,7 @@ export const CartContext = createContext({
   },
   addCart: () => {},
   getCart: () => {},
-  deleteItem: () => {},
+  deleteItem: () => { },
+  updateCart: () => {}
 });
 
