@@ -11,24 +11,24 @@ const Drawer= createDrawerNavigator();
 
 export const DrawerNavigator = () => {
 
-    const { state, checkToken } = useContext(AuthContext);   
+    const { userState, checkToken } = useContext(AuthContext);   
     const { state1, getCart } = useContext(CartContext);
-//    console.log(state);
+   console.log(userState);
 
     useEffect( () => {
         checkToken();
         getCart();
     },[]) 
 
-     if(state.isLoading){
+     if(userState.isLoading){
         return (<CustomLoading/>)
     } 
 
-    if(state.isLogged){
+    if(userState.isLogged){
         return (
             <>            
             <Drawer.Navigator
-                drawerContent={(props) => <CustomDrawerContent {...props} user={state.user} />}
+                drawerContent={(props) => <CustomDrawerContent {...props} user={userState.user} />}
             >
                 <Drawer.Screen 
                     name='Home' 
@@ -40,7 +40,7 @@ export const DrawerNavigator = () => {
         )
     }   
 
-    if(!state.isLogged){
+    if(!userState.isLogged){
         return (
             <Drawer.Navigator
                 

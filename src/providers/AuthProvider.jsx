@@ -14,7 +14,7 @@ const initialState  = {
 
 export const AuthProvider = ({ children}) => {
 
-    const [state, dispatch] = useReducer(AuthReducer,  initialState);
+    const [userState, dispatch] = useReducer(AuthReducer,  initialState);
     /*------------------------------Login-------------------------------------------*/
     const login = async(username, password) =>  {
         try {
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children}) => {
     return(
         <AuthContext.Provider
             value={{
-                state,
+                userState,
                 login,
                 logout,
                 checkToken

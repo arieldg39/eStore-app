@@ -155,8 +155,7 @@ export const CartScreen = ({ navigation }) => {
                   style={{
                     color: "#fff",
                     fontSize: 19,
-                    fontWeight: "bold",
-                    // marginHorizontal: 12,
+                    fontWeight: "bold"
                   }}
                 >
                   {item.qty}
@@ -283,6 +282,8 @@ const styles = StyleSheet.create({
     height: 100,
     borderTopEndRadius: 20,
     borderTopLeftRadius: 20,
+    display: "flex",
+    alignContent: "center"
   },
   button: {
     flexDirection: "row",
@@ -300,7 +301,7 @@ const styles = StyleSheet.create({
     color: "rgba(42, 7, 66, 1)",
     fontSize: 20,
     fontWeight: "bold",
-    alignSelf: "flex-end",
+    alignSelf: "center",
     marginTop: 10,
     marginHorizontal: 60,
     marginBottom: -10,

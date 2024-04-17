@@ -9,7 +9,7 @@ import { CustomLoading } from '../../components/CustomLoading';
 
 export const LoginScreen = () => {
 
-    const { login, state } = useContext(AuthContext); 
+    const { login, userState } = useContext(AuthContext); 
     const {formState, onInputChange}= useForm();
     const [alertVisible, setAlertVisible] = useState(false);
     const [titleAlert, setTitleAlert] = useState("");
@@ -18,30 +18,30 @@ export const LoginScreen = () => {
 
     useEffect(() => {
       hamdleMessage();
-      setIsLoading(state.isLoading)
+      setIsLoading(userState.isLoading)
 
-    }, [state])
+    }, [userState])
     ///////// PROCEDIMIENTO PARA VERICAR EL ESTADO TIENE MENSAJE DE ERROR  ///////////////////////
     const hamdleMessage = () => {
-      console.log(state);
-      if(state.typeError==="NoRegistra") {
+      console.log(userState);
+      if(userState.typeError==="NoRegistra") {
           setTitleAlert("Error Leer Atte.");
-          setMessageAlert(state.errorMessage);
+          setMessageAlert(userState.errorMessage);
           setAlertVisible(true);
       }
-      if(state.typeError==="maldatos") {
+      if(userState.typeError==="maldatos") {
           setTitleAlert("Error Leer Atte.");
-          setMessageAlert(state.errorMessage);
+          setMessageAlert(userState.errorMessage);
           setAlertVisible(true);
       }
-      if(state.typeError==="errorDatos") {
+      if(userState.typeError==="errorDatos") {
           setTitleAlert("Error Leer Atte.");
-          setMessageAlert(state.errorMessage);
+          setMessageAlert(userState.errorMessage);
           setAlertVisible(true);
       }
-      if(state.typeError==="SinConex") {
+      if(userState.typeError==="SinConex") {
           setTitleAlert("Error Leer Atte.");
-          setMessageAlert(state.errorMessage);
+          setMessageAlert(userState.errorMessage);
           setAlertVisible(true);
       }
     };
