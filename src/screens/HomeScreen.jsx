@@ -16,6 +16,7 @@ export const HomeScreen = () => {
   },);
 
 
+
   return (
     <View style={globalStyles.container}>
       <Text

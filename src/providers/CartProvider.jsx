@@ -3,6 +3,7 @@ import { CartReducer } from "../reducers/CartReducers";
 import { CartContext } from "../context/CartContext";
 import { types } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { eStoreApi } from '../config/eStoreAxios';
 
 const initialState = {
   isLoading: true,
@@ -11,11 +12,11 @@ const initialState = {
 };
 
 export const CartProvider = ({ children }) => {
-  const [state, disptach] = useReducer(CartReducer, initialState);
-  const [cartData, setCartData] = useState([]);
-
+    const [  stateCart, disptach ] = useReducer(CartReducer,  initialState);
+    const [cartData, setCartData] = useState([]);
   const addCart = async (productData) => {
     let subtotal = productData.product.precioventa1 * productData.qty;
+
 
     const addProduct = [
       ...state.cart,
@@ -29,10 +30,7 @@ export const CartProvider = ({ children }) => {
         img: productData.product.imagen,
       },
     ];
-    //const cartJson =  await AsyncStorage.getItem('cartStorage');
-    /* f(cartJson !== null){
-            await AsyncStorage.clear('cartStorage');
-        } */
+
     await AsyncStorage.setItem(
       "cartStorage",
       JSON.stringify({
@@ -119,6 +117,7 @@ export const CartProvider = ({ children }) => {
           let subtotal = item.price * newQty;
           return { ...item, qty: newQty, subTotal: subtotal };
         }
+
         return item;
       });
 
@@ -141,17 +140,53 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  return (
-    <CartContext.Provider
-      value={{
-        state,
-        addCart,
-        getCart,
-        deleteItem,
-        updateCart,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
-};
+ const finalCart = async (idUser, cart,total) => {
+        //console.log(idUser, cart);
+        try {
+            const data = await eStoreApi.post('/ventas/register',{
+                iduser: idUser,
+                cart,
+                total
+            });   
+            disptach({
+                type: types.cart.finCart,
+                payload: {
+                    cart: [],
+                    msg:"OK",
+                }
+            })
+            await AsyncStorage.removeItem('cartStorage');
+        } catch (error) {
+            if (error.response) {
+                dispatch({
+                    type: "ERROR-MESSAGE",
+                    payload: {
+                    msg: error.response.data.tipoerror,
+                    },
+                });
+                } else {                
+                dispatch({
+                    type: "ERROR-MESSAGE",
+                    payload: {
+                    msg: "An error occurred during the request",
+                    },
+                });
+                }
+        }
+    };
+    return (
+        <CartContext.Provider
+            value={{
+                stateCart,
+                addCart,
+                getCart,
+                finalCart,
+                deleteItem,
+                updateCart,
+            }}
+        >
+            { children }
+        </CartContext.Provider>
+    )
+}
+

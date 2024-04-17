@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import { useQuantity } from "../../hooks/useQuantity";
 import { CartContext } from "../../context/CartContext";
@@ -19,9 +20,18 @@ export const CartScreen = ({ navigation }) => {
   const { sumQuantity, restQuantity, quantity } = useQuantity();
   const [cantidadTotal, setCantidadTotal] = useState(0);
   const [modalShow, setModalShow] = useState(false);
-  const [item1, setItem] = useState(null);
+  const [item1, setItem] = useState(null); 
+   const { navigate } =  useNavigation();
+
 
   let total = 0;
+      useEffect (() => {      
+        if(stateCart.msg==="ok")
+        {
+            navigate("Home");
+        }
+    }, [stateCart])
+
 
   const generateId = function () {
     return "_" + Math.random().toString(36).substr(2, 9);
@@ -55,7 +65,38 @@ export const CartScreen = ({ navigation }) => {
     if (item.qty == 0) {
       handleDeleteItem(item.id);
     } else {
-      updateCart(item.id, item.qty);
+      updateCart(item.id, item.qty);    
+
+    
+    const hideMessage = () =>{
+        setModalShow(false)
+    };
+    const handleSubmit = () => {
+        setModalShow(true);
+        console.log(state, stateCart);
+        finalCart(state.user.idusuario, stateCart.cart, total );
+        //navigate('Home');
+    };
+    /*--------------------------------------------------------------------------------------*/
+    const MessageModal = ({ visible, message, gifSource, onClose }) => {
+        return (
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={visible}
+            onRequestClose={onClose}
+        >
+            <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+                <Image source={gifSource} style={styles.gifImage} />
+                <Text style={styles.messageText}>{message}</Text>
+                {/* <Button title="Cerrar" onPress={onClose} /> */}
+            </View>
+            </View>
+        </Modal>
+        );
+    };
+
     }
   }
   /*------------------------------Carga el Flatlist con los articulos del carrit--------------- */
@@ -173,6 +214,7 @@ export const CartScreen = ({ navigation }) => {
                 />
               </Pressable>
             </View>
+
             {/* Delete button */}
             <View
               style={{
@@ -235,11 +277,15 @@ export const CartScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* <MessageModal
-                    visible={modalShow}
-                    message="Des"
-                    onClose={hideMessage}
-                /> */}
+   
+          <MessageModal
+
+              visible={modalShow}
+              message="Finalizando Compra..."
+              gifSource={require('../../../assets/carro2.gif')}
+              onClose={hideMessage}
+
+          /> 
       </View>
     );
   } else {
@@ -331,4 +377,6 @@ const styles = StyleSheet.create({
   messageText: {
     marginBottom: 20,
   },
+
+              
 });

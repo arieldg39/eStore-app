@@ -31,6 +31,7 @@ export const CartReducer = (state = initialState, action) => {
         msg: action.payload.msg,
       };
 
+
     case types.cart.deleteItem:
       return {
         ...state,
@@ -38,6 +39,27 @@ export const CartReducer = (state = initialState, action) => {
         cart: action.payload.cart,
         deletedItem: true
       };
+
+        case types.cart.removeCart:
+            return {
+                ...state,
+                isLoading:  false,
+                cart: []
+            }
+        
+        case types.cart.msgCart:
+            return {
+                ...state,
+                isLoading: false,
+                msg: action.payload.msg
+            }
+        case types.cart.finCart:
+            return {
+                ...state,
+                isLoading: false,
+                cart: action.payload.cart,
+                msg: action.payload.msg 
+            }
     
     case types.cart.updateCart:
       return {

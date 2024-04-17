@@ -1,9 +1,12 @@
 export const types = {
-  auth: {
-    login: "LOGIN",
-    logout: "LOGOUT",
-    error: "ERROR",
-  },
+
+    auth: {
+        login:  'LOGIN',
+        logout: 'LOGOUT',
+        register: 'REGISTER',
+        error:  'ERROR'
+    },
+
 
   products: {
     getProducts: "PRODUCTS",
@@ -16,6 +19,22 @@ export const types = {
     deleteItem: "DELETEITEM",
     removeCart: "REMOVECART",
     msgCart: "MSGCART",
-    updateCart: "UPDATECART"
+    updateCart: "UPDATECART",
+    finCart: 'FINCART'
   },
-};
+
+    cart: {
+        addCart: 'ADDCART',
+        removeCart: 'REMOVECART',
+        msgCart: 'MSGCART',
+        finCart: 'FINCART'
+    },
+    orders: {
+        getOrders:  'ORDERS',
+        getOrder:   'ORDER BY ID',
+        getOrderState:   'ORDERS STATE',
+        error:      'ERROR ORDERS'
+    },
+
+}
+

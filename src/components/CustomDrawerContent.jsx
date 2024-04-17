@@ -3,7 +3,8 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import { globalStyles } from "../themes/globalTheme";
 
-export const CustomDrawerContent = ({ navigation, user }) => {
+
+export const CustomDrawerContent = ({ navigation, user, orders }) => {
   const { userState, logout } = useContext(AuthContext);
 
   return (
@@ -31,15 +32,22 @@ export const CustomDrawerContent = ({ navigation, user }) => {
       </View>
     </View>
       <View style={styles.menu}>
-        <TouchableOpacity
-          style={globalStyles.defaultBtnOutline}
-          onPress={logout}
-        >
-          <Text>Salir</Text>
-        </TouchableOpacity>
+           <TouchableOpacity
+                style={globalStyles.defaultBtnOutline}                    
+            >
+                    <Text>Mis Pedidos {orders}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                    style={globalStyles.defaultBtnOutline}
+                    onPress={logout}
+            >
+                    <Text>Salir</Text>
+            </TouchableOpacity>
       </View>
     </View>
   );
+
 };
 
 // Estilos para el Drawer Content
