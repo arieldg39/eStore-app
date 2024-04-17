@@ -13,7 +13,7 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     getProducts();
-  },);
+  },[]);
 
 
 

@@ -14,22 +14,20 @@ const Drawer= createDrawerNavigator();
 export const DrawerNavigator = () => {
 
 
-    const { userState, checkToken } = useContext(AuthContext);  
+    const { userState, checkToken } = useContext(AuthContext);     
     
-    const { state, checkToken } = useContext(AuthContext);   
-    const {  getCart } = useContext(CartContext);
     const { stateOrders, getOrderState } = useContext(OrdersContext);
+    const { stateCart, getCart } = useContext(CartContext);
 //    console.log(state);
 
 
     useEffect( () => {
-        //checkToken();
-        //getCart();        
-        getOrderState();
-        console.log(state);
-    },[state]) 
+        checkToken();        
+        getOrderState();     
+        getCart();   
+    },[]) 
 
-     if(userState.isLoading){
+    if(userState.isLoading){
         return (<CustomLoading/>)
     } 
 
@@ -37,7 +35,7 @@ export const DrawerNavigator = () => {
         return (
             <>            
             <Drawer.Navigator
-                drawerContent={(props) => <CustomDrawerContent {...props} user={state.user}  orders= {stateOrders.state}  />}>
+                drawerContent={(props) => <CustomDrawerContent {...props} user={userState.user}  orders= {stateOrders.state}  />}>
                 <Drawer.Screen 
                     name='Home' 
                     options={{title: 'eStoreApp'}}

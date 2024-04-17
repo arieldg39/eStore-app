@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
-
-import { ProductsScreen } from '../screens/products/ProductsScreen';
-import { AntDesign } from 'react-native-vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react'
+import { Image, Pressable, Text, View } from 'react-native'
 
-
-export const CustomCardProducts = ({itemData}) => {
-
-    const { navigate } =  useNavigation();    
-    const [favorite, setFavorite] = useState(0);  
-    
+export const CustomSearchProducts = ({itemData}) => {
+    const { navigate } =  useNavigation();
+    //const photo = `../../assets/photo/products/${itemData.photo}`;
+    const [favorite, setFavorite] = useState(0);
+    const pages='search'
     return (
         <Pressable
             style={{
@@ -21,6 +17,7 @@ export const CustomCardProducts = ({itemData}) => {
             }}
             onPress={() => navigate('ProductsScreen', {
                 itemData,
+                pages
             })} 
         >
             <View style={{
@@ -65,27 +62,7 @@ export const CustomCardProducts = ({itemData}) => {
                     <Text style={{ fontSize: 12, color: '#f2058b',alignSelf:"center" }}>${ itemData.precioventa1 }.00</Text>
 
                 </View>
-
-                {/* <Pressable 
-                    onPress={() => onPresFavorite(itemData.idarticulo)}
-                >
-                    <View style={{
-                        backgroundColor: 'rgba(255,255,255, 0.1)',
-                        paddingHorizontal: 15,
-                        paddingVertical:10,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderTopLeftRadius: 25,
-                        borderBottomRightRadius: 15,
-                        position: 'absolute',
-                        bottom: -32,
-                        right: -11
-                    }}>
-                        <Text style={{ fontSize: 20}}>
-                            <AntDesign name={favorite == itemData.idarticulo ? 'heart' : 'hearto'} size={18} color={favorite == itemData.idarticulo ? '#f2058b' : '#fff'} />
-                        </Text>
-                    </View>
-                </Pressable> */}
+                
             </View>    
         </Pressable>
     )

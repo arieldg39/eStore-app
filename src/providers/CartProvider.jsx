@@ -14,12 +14,12 @@ const initialState = {
 export const CartProvider = ({ children }) => {
     const [  stateCart, disptach ] = useReducer(CartReducer,  initialState);
     const [cartData, setCartData] = useState([]);
+
   const addCart = async (productData) => {
     let subtotal = productData.product.precioventa1 * productData.qty;
 
-
     const addProduct = [
-      ...state.cart,
+      ...stateCart.cart,
       {
         id: productData.product.idarticulo,
         product: productData.product.articulo,
@@ -53,30 +53,37 @@ export const CartProvider = ({ children }) => {
       const cartArray = JSON.parse(cartJson);
       console.log("first cart array: " + cartArray);
       setCartData(cartArray);
-      let addProduct = [];
-      for (let i = 0; i < cartData.products.length; i++) {
-        const item = cartData.products[i];
-        addProduct = [
-          ...addProduct,
-          {
-            id: item.id,
-            product: item.product,
-            price: item.price,
-            qty: item.qty,
-            subTotal: item.subTotal,
-            marca: item.marca,
-            img: item.img,
+      console.log(cartData);
+      if(cartData!=null) {
+
+        let addProduct = [];
+        for (let i = 0; i < cartData.products.length; i++) {
+          const item = cartData.products[i];
+          addProduct = [
+            ...addProduct,
+            {
+              id: item.id,
+              product: item.product,
+              price: item.price,
+              qty: item.qty,
+              subTotal: item.subTotal,
+              marca: item.marca,
+              img: item.img,
+            },
+          ];
+        }
+        console.log("carrito->"+addProduct);
+        disptach({
+          type: types.cart.addCart,
+          payload: {
+            cart: addProduct,
+            cantProd: addProduct.length,
           },
-        ];
+        });
       }
-      disptach({
-        type: types.cart.addCart,
-        payload: {
-          cart: addProduct,
-          cantProd: addProduct.length,
-        },
-      });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteItem = async (id) => {
@@ -140,11 +147,10 @@ export const CartProvider = ({ children }) => {
     }
   };
 
- const finalCart = async (idUser, cart,total) => {
+    const endCart = async (cart,total) => {
         //console.log(idUser, cart);
         try {
-            const data = await eStoreApi.post('/ventas/register',{
-                iduser: idUser,
+            const data = await eStoreApi.post('/ventas/register',{                
                 cart,
                 total
             });   
@@ -180,7 +186,7 @@ export const CartProvider = ({ children }) => {
                 stateCart,
                 addCart,
                 getCart,
-                finalCart,
+                endCart,
                 deleteItem,
                 updateCart,
             }}

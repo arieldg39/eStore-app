@@ -1,36 +1,40 @@
-
 import React, { useContext, useEffect, useState } from "react";
-import { useQuantity } from "../../hooks/useQuantity";
 import { CartContext } from "../../context/CartContext";
 import {
+  Button,
   FlatList,
   Image,
+  Modal,
   Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { CustomQuantity } from "../../components/CustomQuantity";
 import { globalStyles } from "../../themes/globalTheme";
 import { AntDesign } from "react-native-vector-icons";
+import { useNavigation } from "@react-navigation/native";
+
 
 export const CartScreen = ({ navigation }) => {
-  const { state, deleteItem, updateCart } = useContext(CartContext);
-  const { sumQuantity, restQuantity, quantity } = useQuantity();
+
+  const { stateCart,  deleteItem, updateCart,endCart} = useContext(CartContext);  
+  
   const [cantidadTotal, setCantidadTotal] = useState(0);
   const [modalShow, setModalShow] = useState(false);
-  const [item1, setItem] = useState(null); 
-   const { navigate } =  useNavigation();
+
+  const [item, setItem] = useState("")
+  
+  const { navigate } =  useNavigation();
 
 
   let total = 0;
-      useEffect (() => {      
+    useEffect (() => {      
         if(stateCart.msg==="ok")
         {
             navigate("Home");
         }
-    }, [stateCart])
+    }, [stateCart]) 
 
 
   const generateId = function () {
@@ -38,9 +42,14 @@ export const CartScreen = ({ navigation }) => {
   };
   /*--------------------------------------------------------------------------------------*/
   const hideMessage = () => {
-    setModalShow;
+    setModalShow(false);
   };
-  const handleSubmit = () => {};
+  
+  const handleSubmit = () => {
+      setModalShow(true);
+      /* console.log(stateCart, userState);*/
+      endCart( stateCart.cart, total );
+  };
 
   const handleDeleteItem = (id) => deleteItem(id);
   /*--------------------------------------------------------------------------------------*/
@@ -56,8 +65,7 @@ export const CartScreen = ({ navigation }) => {
     if (prev <= 0) return;
     item.qty = prev + 1;
     updateCart(item.id, item.qty);
-  };
-
+  }; 
   function restarEnC(item) {
     const prev = item.qty;
     if (prev <= 0) return;
@@ -65,38 +73,7 @@ export const CartScreen = ({ navigation }) => {
     if (item.qty == 0) {
       handleDeleteItem(item.id);
     } else {
-      updateCart(item.id, item.qty);    
-
-    
-    const hideMessage = () =>{
-        setModalShow(false)
-    };
-    const handleSubmit = () => {
-        setModalShow(true);
-        console.log(state, stateCart);
-        finalCart(state.user.idusuario, stateCart.cart, total );
-        //navigate('Home');
-    };
-    /*--------------------------------------------------------------------------------------*/
-    const MessageModal = ({ visible, message, gifSource, onClose }) => {
-        return (
-        <Modal
-            animationType="slide"
-            transparent={true}
-            visible={visible}
-            onRequestClose={onClose}
-        >
-            <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-                <Image source={gifSource} style={styles.gifImage} />
-                <Text style={styles.messageText}>{message}</Text>
-                {/* <Button title="Cerrar" onPress={onClose} /> */}
-            </View>
-            </View>
-        </Modal>
-        );
-    };
-
+      updateCart(item.id, item.qty); 
     }
   }
   /*------------------------------Carga el Flatlist con los articulos del carrit--------------- */
@@ -157,7 +134,7 @@ export const CartScreen = ({ navigation }) => {
           <View>
             <Text style={{ fontSize: 16, color: "#fff" }}>{item.product}</Text>
             <Text style={{ fontSize: 16, color: "#fff" }}>
-              Cantidad: {item.qty}
+              ${item.price} - Cantidad: {item.qty}
             </Text>
             <Text
               style={{ fontSize: 18, color: "#f2058b", fontWeight: "bold" }}
@@ -237,40 +214,45 @@ export const CartScreen = ({ navigation }) => {
     );
   };
   /*-------------------------------Modal Mensajes------------------------------------------------------ */
-  const MessageModal = ({ visible, message, onClose }) => {
+  const MessageModal = ({ visible, message, gifSource, onClose }) => {
     return (
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={visible}
-        onRequestClose={onClose}
+          animationType="slide"
+          transparent={true}
+          visible={visible}
+          onRequestClose={onClose}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.messageText}>{message}</Text>
-            <Button title="Cerrar" onPress={onClose} />
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+                <Image source={gifSource} style={styles.gifImage} />
+                <Text style={styles.messageText}>{message}</Text>
+                <Button title="Cerrar" onPress={onClose} />
+            </View>
           </View>
-        </View>
       </Modal>
     );
-  };
+};
 
   /*----------------------------------------------------------------------------------------------- */
-  if (state.cart.length > 0) {
+  if (stateCart.cart.length > 0) {
     return (
       <View style={globalStyles.container}>
         <View style={styles.containerPrimary}>
           <FlatList
-            data={state.cart}
-            renderItem={({ item }) => cartRender(item)}
-            keyExtractor={(item) => item.id + generateId()}
+              data={stateCart.cart}
+              renderItem={({ item }) => cartRender(item)}
+              keyExtractor={ ()=>{generateId()+1}}
+              onEndReachedThreshold={0.5}
           />
           <View style={styles.containerTotal}>
             <Text style={styles.textTotal}>
               {" "}
               Total de Venta ${cantidadTotal}
             </Text>
-            <TouchableOpacity style={globalStyles.defaultBtn}>
+            <TouchableOpacity 
+              style={globalStyles.defaultBtn}
+              onPress={handleSubmit}
+            >
               <Text Text style={globalStyles.defaulTextBtn}>
                 Finalizar Compra
               </Text>
@@ -279,12 +261,10 @@ export const CartScreen = ({ navigation }) => {
         </View>
    
           <MessageModal
-
               visible={modalShow}
               message="Finalizando Compra..."
               gifSource={require('../../../assets/carro2.gif')}
               onClose={hideMessage}
-
           /> 
       </View>
     );
@@ -309,7 +289,7 @@ export const CartScreen = ({ navigation }) => {
         </View>
       </View>
     );
-  }
+  };
 };
 
 const styles = StyleSheet.create({
@@ -376,7 +356,9 @@ const styles = StyleSheet.create({
   },
   messageText: {
     marginBottom: 20,
-  },
-
-              
+  },     
+  gifImage:{
+    height: 200,
+    width: 200,
+  },         
 });
