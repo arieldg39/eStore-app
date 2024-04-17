@@ -1,0 +1,28 @@
+{
+  "cli": {
+    "version": ">= 7.8.2"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "chanel":"preview",
+      "adroid": {
+        "image": "latest"
+      }
+    },
+    "production": {
+      "node": "16.18.0",
+      "adroid": {
+        "image":"latest",
+        "buildType": "apk"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

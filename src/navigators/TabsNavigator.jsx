@@ -7,15 +7,14 @@ import { CartContext } from '../context/CartContext';
 import { CartScreen } from '../screens/carts/CartScreen';
 import { SearchProductScreen } from '../screens/products/SearchProductScreen';
 
+
 const Tab = createBottomTabNavigator();
 
 export const TabsNavigator = () => {
     const { stateCart, getCart } = useContext(CartContext);
-
-     /* useEffect( () =>  {
-        getCart();
-    }, [stateCart]);  */
-
+    useEffect( () => {
+        getCart();                
+    },[]) 
 
     return (
         <Tab.Navigator

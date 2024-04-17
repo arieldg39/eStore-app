@@ -5,23 +5,22 @@ import { CustomTextSearch } from '../../components/CustomTextSearch'
 import { ProductContext } from '../../context/ProductContext'
 import { CustomCardProducts } from '../../components/CustomCardProducts '
 import { useForm } from '../../hooks/useForm'
+import { CustomSearchProducts } from '../../components/CustomSearchProducts'
 
 export const SearchProductScreen = () => {
     const { getProductsAll,searchProducts, state } = useContext(ProductContext);
     const [productList, setProductList] = useState();
-    const {formState, onInputChange}= useForm();
-    //let arrData=[];
+
+    
     
     useEffect( () =>  {
-        getProductsAll(); 
-        //arrData = state.products;
+        getProductsAll();         
         const arrDataVer = state.products.filter((data) => data.idarticulo <=10);
         setProductList(arrDataVer);
         
     }, []);   
-     useEffect( () =>  {        
-        //arrData = state.products;
-        //const arrDataVer = state.products.filter((data) => data.idarticulo <=10);
+
+    useEffect( () =>  {                
         setProductList(state.products);
         
     }, [state.products]);    
@@ -63,7 +62,7 @@ export const SearchProductScreen = () => {
             <CustomTextSearch onChangeTxt={(input)=>{handleBuscar(input)}}/>     
             <FlatList  
                 data={productList}
-                renderItem={({item}) => <CustomCardProducts itemData={item}/>}
+                renderItem={({item}) => <CustomSearchProducts itemData={item}/>}
                 keyExtractor={item => item?.idarticulo+generateId()}  
                 horizontal={false}                    
                 numColumns={2}
