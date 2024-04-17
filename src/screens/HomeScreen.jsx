@@ -25,6 +25,7 @@ export const HomeScreen = () => {
                     keyExtractor={item => item.idarticulo}  
                     horizontal={false}                    
                     numColumns={2}
+                    onEndReachedThreshold={0.5}
                 />
             </View>            
         </View>
