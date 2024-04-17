@@ -5,16 +5,16 @@ import {AntDesign} from 'react-native-vector-icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { CartContext } from '../context/CartContext';
 import { CartScreen } from '../screens/carts/CartScreen';
+import { SearchProductScreen } from '../screens/products/SearchProductScreen';
+
 
 const Tab = createBottomTabNavigator();
 
 export const TabsNavigator = () => {
     const { stateCart, getCart } = useContext(CartContext);
-
-     /* useEffect( () =>  {
-        getCart();
-    }, [stateCart]);  */
-
+    useEffect( () => {
+        getCart();                
+    },[]) 
 
     return (
         <Tab.Navigator
@@ -62,9 +62,9 @@ export const TabsNavigator = () => {
                 }} 
             />
 
-       {/*  <Tab.Screen 
+        <Tab.Screen 
             name='SearchScreen' 
-            component={StackNavigator}
+            component={SearchProductScreen}
             options={{ 
                 title:'Buscar',
                 tabBarIcon: ({focused}) => (
@@ -75,7 +75,7 @@ export const TabsNavigator = () => {
                     />
                 )
             }} 
-        /> */}
+        />
 
         <Tab.Screen 
             name='Cartscreen'  

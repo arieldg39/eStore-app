@@ -13,31 +13,32 @@ const Drawer= createDrawerNavigator();
 
 export const DrawerNavigator = () => {
 
-    const [orderState, setOrderState] = useState("")
 
-    const { state, checkToken } = useContext(AuthContext);   
-    const {  getCart } = useContext(CartContext);
+    const { userState, checkToken } = useContext(AuthContext);     
+    
     const { stateOrders, getOrderState } = useContext(OrdersContext);
+    const { stateCart, getCart } = useContext(CartContext);
 //    console.log(state);
 
+
     useEffect( () => {
-        checkToken();
-        //getCart();
-        getOrderState();
+        checkToken();        
+        getOrderState();     
+        getCart();   
     },[]) 
 
-     if(state.isLoading){
+    if(userState.isLoading){
         return (<CustomLoading/>)
     } 
 
-    if(state.isLogged){
+    if(userState.isLogged){
         return (
             <>            
             <Drawer.Navigator
-                drawerContent={(props) => <CustomDrawerContent {...props} user={state.user}  orders= {stateOrders.state}  />}>
+                drawerContent={(props) => <CustomDrawerContent {...props} user={userState.user}  orders= {stateOrders.state}  />}>
                 <Drawer.Screen 
                     name='Home' 
-                    options={{title: 'StoreApp'}}
+                    options={{title: 'eStoreApp'}}
                     component={TabsNavigator}
                 />
             </Drawer.Navigator>
@@ -45,7 +46,7 @@ export const DrawerNavigator = () => {
         )
     }   
 
-    if(!state.isLogged){
+    if(!userState.isLogged){
         return (
             <Drawer.Navigator>
                 <Drawer.Screen name='Login' options={{title: 'Login', headerShown:false,}}  component={LoginScreen}/>

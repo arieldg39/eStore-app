@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 export const ProductsScreen = ({ route }) => {
 
     const { itemData } = route.params;
+    const { pages } = route.params;
     //const [talle, setTalle] = useState(0);
     const { quantity, restQuantity, sumQuantity } = useQuantity();
     const { addCart, state } = useContext(CartContext);
@@ -33,8 +34,12 @@ export const ProductsScreen = ({ route }) => {
         }
 
         addCart(data); 
-        navigate('Home');
-        console.log(state);
+        //console.log(state);
+        if(pages=="Search"){
+            navigate('SearchProductScreen');            
+        }else{
+            navigate('Home');
+        }
     }
 
 
@@ -90,7 +95,7 @@ export const ProductsScreen = ({ route }) => {
                     {/* {itemData.name}{" "} */}
                     {itemData.articulo}{" "}
                 </Text>
-                <Text style={{ fontSize: 26, color: "#f2058b", fontWeight: "bold" }}>
+                <Text style={{ fontSize: 26, color: "#f2b", fontWeight: "bold" }}>
                     {/* ${itemData.price} */}
                     ${itemData.precioventa1}
                 </Text>

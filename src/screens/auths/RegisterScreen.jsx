@@ -6,33 +6,35 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm } from '../../hooks/useForm';
 import { AuthContext } from '../../context/AuthContext';
 import { CustomAlert } from '../../components/CustomAlert';
+import { CustomLoadingPage } from '../../components/CustomLoadingPage';
 
 
 export const RegisterScreen = () => {
 
-    const { state, register } = useContext(AuthContext);         
+    const { userState, register } = useContext(AuthContext);         
     const { navigate } =  useNavigation();
     const {formState, onInputChange}= useForm();
     const [alertVisible, setAlertVisible] = useState(false);
     const [titleAlert, setTitleAlert] = useState("");
     const [messageAlert, setMessageAlert] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
 
     useEffect(() => {
         hamdleMessage();
-        //setIsLoading(state.isLoading)  
-    }, [state])
+        setIsLoading(userState.isLoading)  
+    }, [userState])
     /*-------------------------------------------------*/
     const hamdleMessage = () => {
-        console.log(state);
-        if(state.typeError==="ok") {
+        console.log(userState);
+        if(userState.typeError==="ok") {
             setTitleAlert("Error Leer Atte.");
-            setMessageAlert(state.errorMessage);
+            setMessageAlert(userState.errorMessage);
             setAlertVisible(true);
         }        
-        if(state.typeError==="Registrado") {
+        if(userState.typeError==="Registrado") {
             setTitleAlert("Error Leer Atte.");
-            setMessageAlert(state.errorMessage);
+            setMessageAlert(userState.errorMessage);
             setAlertVisible(true);
         }        
     };
@@ -122,6 +124,7 @@ export const RegisterScreen = () => {
                     onChangeText={(value) => onInputChange('password', value)}
                 />
             </View>
+            { isLoading &&  <CustomLoadingPage/> }
             <View > 
                 <TouchableOpacity
                     style={globalStyles.defaultBtn}
