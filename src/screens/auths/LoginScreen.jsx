@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import {globalStyles} from '../../themes/globalTheme';
 import { AuthContext } from '../../context/AuthContext';
 import {useForm  } from '../../hooks/useForm';
@@ -82,6 +82,10 @@ export const LoginScreen = () => {
 
   return (
     <>        
+        <KeyboardAvoidingView
+          //behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.container}>
+
         <View style={globalStyles.container}>
             <View>              
                 <Image 
@@ -145,16 +149,21 @@ export const LoginScreen = () => {
               onClose={hideAlert}
             />
         </View>
+      </KeyboardAvoidingView>
     </>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 
     logo:{
       marginTop: 20,
-      width: 128,
-      height: 128,
+      width: 94,
+      height: 94,
       alignSelf: 'center',
     },
     pnText: {

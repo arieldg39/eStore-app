@@ -12,19 +12,18 @@ import { RegisterScreen } from '../screens/auths/RegisterScreen';
 const Drawer= createDrawerNavigator();
 
 export const DrawerNavigator = () => {
-
-    const [orderState, setOrderState] = useState("")
-
+    
     const { state, checkToken } = useContext(AuthContext);   
     const {  getCart } = useContext(CartContext);
     const { stateOrders, getOrderState } = useContext(OrdersContext);
 //    console.log(state);
 
     useEffect( () => {
-        checkToken();
-        //getCart();
+        //checkToken();
+        //getCart();        
         getOrderState();
-    },[]) 
+        console.log(state);
+    },[state]) 
 
      if(state.isLoading){
         return (<CustomLoading/>)
@@ -37,7 +36,7 @@ export const DrawerNavigator = () => {
                 drawerContent={(props) => <CustomDrawerContent {...props} user={state.user}  orders= {stateOrders.state}  />}>
                 <Drawer.Screen 
                     name='Home' 
-                    options={{title: 'StoreApp'}}
+                    options={{title: 'eStoreApp'}}
                     component={TabsNavigator}
                 />
             </Drawer.Navigator>

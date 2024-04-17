@@ -21,7 +21,7 @@ export const OrdersProvider = ({children}) => {
 
     const getOrderState = async() =>{
         try {
-            const orders = await eStoreApi.get('/orders/getState');
+            const orders = await eStoreApi.post('/orders/getState');
             console.log(orders);   
             dispatch({
                 type: types.orders.getOrderState,
