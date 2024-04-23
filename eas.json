@@ -8,19 +8,9 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "chanel":"preview",
-      "adroid": {
-        "image": "latest"
-      }
+      "distribution": "internal"
     },
-    "production": {
-      "node": "16.18.0",
-      "adroid": {
-        "image":"latest",
-        "buildType": "apk"
-      }
-    }
+    "production": {}
   },
   "submit": {
     "production": {}
