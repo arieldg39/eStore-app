@@ -54,7 +54,7 @@ export const CartProvider = ({ children }) => {
       console.log("first cart array: " + cartArray);
       setCartData(cartArray);
       console.log(cartData);
-      if(cartData!=null) {
+      if(cartData) {
 
         let addProduct = [];
         for (let i = 0; i < cartData.products.length; i++) {
