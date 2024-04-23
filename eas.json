@@ -8,9 +8,20 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel":"preview",
+      "android": {
+        "image": "latest"
+      }
+
     },
-    "production": {}
+    "production": {
+      "node": "16.18.0",
+      "android": {
+        "image":"latest",
+        "build": "apk"
+      }
+    }
   },
   "submit": {
     "production": {}
