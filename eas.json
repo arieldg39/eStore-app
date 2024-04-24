@@ -16,7 +16,7 @@
 
     },
     "production": {
-      "node": "16.18.0",
+      "node": "20.12.2",
       "android": {
         "image":"latest",
         "buildType": "apk"
