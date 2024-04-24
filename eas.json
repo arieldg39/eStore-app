@@ -19,7 +19,7 @@
       "node": "16.18.0",
       "android": {
         "image":"latest",
-        "build": "apk"
+        "buildType": "apk"
       }
     }
   },
