@@ -37,18 +37,20 @@ export const AuthProvider = ({ children}) => {
                 dispatch({
                     type: types.auth.error,
                     payload:  {
-                        errorMessage: "Sin Conexion con el Servidor de Datos, intente mas tardes!!!",
+                        errorMessage: "Sin Conexión con el Servidor de Datos, intente más tardes!!!",
                         typeError: "SinConex"
                     }
                 }) 
             }else{
-                dispatch({
-                    type: types.auth.error,
-                    payload:  {
-                        errorMessage: error.response.data.message,
-                        typeError: error.response.data.tipoerror
-                    }
-                }) 
+                
+                    dispatch({
+                        type: types.auth.error,
+                        payload:  {
+                            errorMessage: error.response.data.message,
+                            typeError: error.response.data.tipoerror
+                        }
+                    }) 
+               
             }
             
         }
@@ -100,18 +102,29 @@ export const AuthProvider = ({ children}) => {
                 dispatch({
                     type: types.auth.error,
                     payload:  {
-                        errorMessage: "Sin Conexion con el Servidor de Datos, intente mas tardes!!!",
+                        errorMessage: "Sin Conexión con el Servidor de Datos, intente más tardes!!!",
                         typeError: "SinConex"
                     }
                 }) 
             }else{
-                dispatch({
-                    type: types.auth.error,
-                    payload:  {
-                        errorMessage: error.response.data.message,
-                        typeError: error.response.data.tipoerror
-                    }
-                }) 
+                if(error.code==="ERR_BAD_REQUEST")
+                {
+                    dispatch({
+                        type: types.auth.error,
+                        payload:  {
+                            errorMessage: "Sin Conexión con el Servidor de Datos, intente más tardes!!!",
+                            typeError: "SinConex"
+                        }
+                    }) 
+                }else{
+                    dispatch({
+                        type: types.auth.error,
+                        payload:  {
+                            errorMessage: error.response.data.message,
+                            typeError: error.response.data.tipoerror
+                        }
+                    }) 
+                }
             }
             
         }
