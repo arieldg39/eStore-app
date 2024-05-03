@@ -91,7 +91,7 @@ export const LoginScreen = () => {
             <View>              
                 <Image 
                   style={styles.logo}
-                  source={require('../../../assets/iconos/shop_store128.png')} 
+                  source={require('../../../assets/iconos/icoapp.png')} 
                 />
             </View>
             <View style={styles.pnText}>                                        
@@ -162,9 +162,9 @@ const styles = StyleSheet.create({
   },
 
     logo:{
-      marginTop: 20,
-      width: 94,
-      height: 94,
+      marginTop: 10,
+      width: 128,
+      height: 128,
       alignSelf: 'center',
     },
     pnText: {

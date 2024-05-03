@@ -1,5 +1,19 @@
 {
   "expo": {
+    "name": "storeapp",
+    "slug": "storeapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "extra": {
       "eas": {
         "projectId": "ef957c1e-fc36-4e42-91e5-8f3dcb3adba7"
